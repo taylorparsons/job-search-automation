@@ -6,15 +6,21 @@ Prefer to be walked through setup by an AI assistant instead of editing files? C
 
 ## Paste this prompt
 
-> You are helping me set up the Reverse-Recruiter Job Search System in this folder. Do it conversationally — ask me one question at a time, then generate the files. Steps:
+> You are helping me set up the Reverse-Recruiter Job Search System in this folder. Do it conversationally — ask me one question at a time, then generate the local-only files. Do not submit applications, create accounts, or enter credentials. Steps:
 >
-> 1. Ask me for: my full name, email, phone (optional), LinkedIn URL, and location preference (remote / relocation / based in a city). Then ask for my weekly application target and weekly outreach target (suggest 8 and 5).
-> 2. From `config/config.example.json`, create `config/config.json` with my answers filled in. Do not include the `_comment` field.
-> 3. Ask me for my current roles — for each: company, role title, and which stage it's in (Sourced, Applying, Applied, Screening, Interview, Offer, Closed). Also ask for a fit rating (Strong / Good / Moderate / Stretch) and the source (e.g. LinkedIn, Greenhouse).
-> 4. Open `cockpit/Job_Search_Cockpit.html`, and replace the `SEED` object's `cards` array with my real roles (keep the same field shape). Set each card's `enteredAt` and `createdAt` to today's date.
-> 5. Ask me for any executive recruiters or warm-network contacts I want to track, and update the `D.recruiters` and `D.network` arrays accordingly.
-> 6. Set `SEED.updated` (date) and `SEED.updatedAt` (ISO timestamp) to now — this stamps when the file was last written. Do NOT touch `CFG`: today and the week start are derived from the system clock, so there are no dates to maintain.
-> 7. Show me a summary of what you changed and remind me that my personal data files are gitignored and should not be committed.
+> 1. Ask me for: my full name, email, phone (optional), LinkedIn URL, location preference, compensation floor, weekly application target, and weekly outreach target. Suggest 6-8 quality applications and 5 outreach actions per week.
+> 2. Present these starting target-position tracks and ask me to confirm, remove, rename, or reprioritize each one:
+>    - **Primary:** Senior or Principal Product Manager — AI platform, applied AI, generative AI, RAG, agent, and AI-enabled workflow roles.
+>    - **Secondary:** Senior or Principal Product Manager — internal tools, support operations, self-service, and workflow-automation roles.
+>    - **Selective:** Senior or Principal Product Manager — platform, marketplace operations, fulfillment, returns, and product reliability roles.
+>    - **Optional stretch:** Product Lead, Group Product Manager, Director of Product, or Head of Product roles when the scope is hands-on product leadership rather than people management alone.
+> 3. From `config/config.example.json`, create `config/config.json` with the operator details and confirmed tracks. Do not include the `_comment` fields. Update `search.target_role_types`, `criteria.tracks`, `criteria.intersection`, `criteria.mission_signals`, `criteria.comp_floor`, `criteria.location_ok`, and `criteria.level_words`. Ensure the level list includes Senior PM and Principal PM language; do not leave the default director-only filter in place.
+> 4. Copy `fit/skills.example.json` to `fit/skills.json`. Ask for the local path to my career bank (if available), then use only verified bank evidence to create an inventory of relevant skills. Favor AI product leadership, AI-enabled workflow design, internal knowledge/RAG copilots, internal and operational tooling, marketplace/returns, reliability, and agent workflows. Do not invent tools, metrics, titles, or ownership. Do not describe me as having led GenAI governance; the accurate framing is enterprise GPT-4 access, partnership with the GenAI governance team, and an internal-knowledge RAG copilot.
+> 5. Copy `scout/scout_targets.example.json` to `scout/scout_targets.json`. Ask for target companies and careers URLs, then organize them by high, medium, or watch priority. Also copy `scout/scout_boards.example.json` to `scout/scout_boards.json` and ask for job boards, communities, and recruiter sources to monitor. These are local inventories, not permission to auto-apply.
+> 6. Ask me for my current roles — for each: company, role title, stage (Sourced, Applying, Applied, Screening, Interview, Offer, Closed), source, and any job-description path. Keep the fit rating as a review field, not an unsupported claim.
+> 7. Create `cockpit/Job_Search_Cockpit.local.html` by copying the shipped cockpit. Add that local filename to `.git/info/exclude`, then update only the local copy's `SEED` cards, recruiter list, network list, `updated`, and `updatedAt` values. Never place my personal pipeline data into the tracked `cockpit/Job_Search_Cockpit.html` source file.
+> 8. For every promising role, ask me to save the job description locally and create a role JSON file. Use the Career Bank bridge to produce a resume Markdown file, an evidence map, and (when requested) a DOCX. Require me to review the evidence map and resume before any application action.
+> 9. Show me a summary of the confirmed target tracks, configured local files, any unresolved company verdicts, and the first actions in the cockpit.
 >
 > Ask me the first question now.
 
@@ -23,5 +29,5 @@ Prefer to be walked through setup by an AI assistant instead of editing files? C
 ## Notes
 
 - The assistant only edits your local copies. Nothing is sent anywhere.
-- Your real `config.json` and any personalized cockpit are gitignored — keep them out of the public repo.
-- If you would rather not use an AI assistant, run `bash setup.sh` for the same result via simple prompts.
+- `config/config.json`, `fit/skills.json`, and the scout inventories are gitignored. The shipped cockpit HTML is tracked, so use the `.local.html` copy for personal pipeline data.
+- `bash setup.sh` only captures basic profile and weekly-target information. Use this prompt when you also want tailored role tracks, evidence inventory, source lists, and a private cockpit board.
