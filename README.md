@@ -12,6 +12,7 @@ The centerpiece is a single-file **cockpit**: an action queue, a drag-to-move ka
 |---|---|
 | **[Architecture](docs/ARCHITECTURE.md)** | The system and its trust boundaries · the three-gate decision pipeline · end-to-end process flow · **the contract, as a swimlane** · the state model. Every diagram renders inline on GitHub — none of them are images. |
 | **[Technical Design](docs/TECHNICAL_DESIGN.md)** | The full spec: guarantees, failure modes, test strategy, and **the residual risks I do not claim to have solved.** |
+| **[Career Bank job-search flow](docs/CAREER_BANK_JOB_SEARCH_FLOW.md)** | The local sequence from target configuration through a selected role's evidence map and tailored resume. |
 | **[The acceptance criteria](fit/README.md)** | *"Five ideas worth stealing, even if you never run this code."* |
 | **[BRD / PRD](docs/)** | Business requirements and product spec. |
 
