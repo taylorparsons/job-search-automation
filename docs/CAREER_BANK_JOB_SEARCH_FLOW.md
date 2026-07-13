@@ -8,43 +8,40 @@ the fork reads it in place and does not copy it into this repository.
 sequenceDiagram
     autonumber
     actor User
-    participant Config as Local configuration<br/>config.json + skills.json
-    participant Sources as Target companies<br/>and job sources
-    participant Fit as Fit gate<br/>role_fit.py
-    participant Veto as Company screen<br/>values_veto.py
-    participant Bridge as Career bridge<br/>tailor/tailor.py
+    participant Config as Local configuration
+    participant Sources as Job sources
+    participant Fit as Fit gate
+    participant Veto as Company screen
+    participant Bridge as Career bridge
     participant Bank as career_bank.json
     participant Graph as career_graph.json
     participant CLI as career_cli.py
     participant Output as Private application folder
     participant Cockpit as Private cockpit
 
-    User->>Config: Define target roles, locations,<br/>compensation floor, evidence, and exclusions
+    User->>Config: Define targets, location, compensation, evidence, and exclusions
     User->>Sources: Review target-company pages and job sources
-    Note over Sources: Current fork: role discovery is reviewed manually
+    User->>User: Review discovered roles manually
     Sources-->>User: Job post URL, title, company, and description
 
     User->>Fit: Check hard gates and rank role fit
     Fit-->>User: Reject, flag, or score
-    alt Role clears fit floor
+    alt Role is selected for tailoring
         User->>Veto: Research company and record PASS / FAIL / UNKNOWN
-        alt Company is PASS
-            User->>Bridge: Provide role JSON and local job description
-            Bridge->>Bank: Read verified achievements and profile facts
-            Bridge->>Graph: Read achievement-to-tag links
-            Bridge->>CLI: Rank evidence against the job description
-            CLI-->>Bridge: Selected achievements
-            Bridge->>CLI: Render resume Markdown and optional DOCX
-            CLI-->>Bridge: Resume content
-            Bridge->>Output: Write resume, DOCX, and evidence map
-            Output-->>User: Reviewable application package
-            User->>Cockpit: Add role and track its stage
-            Note over User,Cockpit: User reviews and submits; no automatic application submission
-        else Company is FAIL or UNKNOWN
-            Veto-->>User: Suppress or hold for your decision
-        end
+        Veto-->>User: PASS, FAIL, or UNKNOWN
+        User->>Bridge: Continue only after a PASS decision
+        Bridge->>Bank: Read verified achievements and profile facts
+        Bridge->>Graph: Read achievement-to-tag links
+        Bridge->>CLI: Rank evidence against the job description
+        CLI-->>Bridge: Selected achievements
+        Bridge->>CLI: Render resume Markdown and optional DOCX
+        CLI-->>Bridge: Resume content
+        Bridge->>Output: Write resume, DOCX, and evidence map
+        Output-->>User: Reviewable application package
+        User->>Cockpit: Add role and track its stage
+        User->>User: Review and submit manually
     else Role is rejected or below floor
-        Fit-->>User: Do not tailor; retain reason for review
+        Fit-->>User: Do not tailor and retain reason for review
     end
 ```
 
