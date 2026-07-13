@@ -21,6 +21,7 @@ config/company_verdicts.json
 *CoverLetter*.docx
 *Resume*.pdf
 *CoverLetter*.pdf
+tailor/output/
 
 # Project-specific (as-built) spec contains real names/paths — keep private
 Reverse_Recruiter_Project_Spec.docx
